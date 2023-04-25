@@ -9,7 +9,7 @@
 </head>
 <body>
     <aside>
-        <h2 class="timer">timer test text</h2>
+        <h2 class="timer"></h2>
     </aside>
     <aside>
         <button class="highScoreBtn" type="button">button test text</button>
@@ -21,22 +21,21 @@
         </div>
         <div id="generateQuiz" class="flexCenter">
             <h2>Question</h2>
-            <h3></h3>
-            <ul>
-                <li>A</li>
-                <li>B</li>
-                <li>C</li>
-                <li>D</li>
-            </ul>
+            <h3 id="question"></h3>
+            <ul id="choices"></ul>
         </div>
         <div id="generateSubmit" class="flexCenter">
             <h1>Game Over</h1>
-            <h2></h2>
+            <h2 id="displayScore"></h2>
             <div class="input">
                 <label for="name">Name</label>
                 <input type="text" name="name" id="scoreName" placeholder="Your Name" />
             </div>
             <button id="submitBtn" type="submit">Submit</button>
+        </div>
+        <div id="generateRestart" class="flexCenter">
+            <h2>Game Over</h2>
+            <button id="restartBtn" type="button">Click to play again</button>
         </div>
         <div id="generateHighScore" class="flexCenter">
             <h2>Highscores</h>
