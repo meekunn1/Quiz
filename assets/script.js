@@ -1,5 +1,15 @@
 var timer = document.querySelector(".timer");
-console.log(document);
+var startPage = document.querySelector("#generateStart");
+var quizPage = document.querySelector("#generateQuiz");
+var submitPage = document.querySelector("#generateSubmit");
+var highScorePage = document.querySelector("#generateHighScore");
+
+console.log(timer);
+console.log(startPage);
+startPage.style.display="none"
+//quizPage.style.display="none"
+submitPage.style.display="none"
+highScorePage.style.display="none"
 
 //timer function from 04-02-09
 function setTime() {

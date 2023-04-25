@@ -9,18 +9,19 @@
 </head>
 <body>
     <aside>
-        <h1 class="timer">timer test text</h1>
+        <h2 class="timer">timer test text</h2>
     </aside>
     <aside>
         <button class="highScoreBtn" type="button">button test text</button>
     </aside>
     <main class="interface">
-        <div id="generateStart">
+        <div id="generateStart" class="flexCenter">
             <h1>Coding Quiz Challenge</h1>
             <button id="startBtn" type="button">Click to start Quiz</button>
         </div>
-        <div >
-            <h1>Question</h1>
+        <div id="generateQuiz" class="flexCenter">
+            <h2>Question</h2>
+            <h3></h3>
             <ul>
                 <li>A</li>
                 <li>B</li>
@@ -28,8 +29,17 @@
                 <li>D</li>
             </ul>
         </div>
-        <div>
-            <h1>Highscores</h1>
+        <div id="generateSubmit" class="flexCenter">
+            <h1>Game Over</h1>
+            <h2></h2>
+            <div class="input">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="scoreName" placeholder="Your Name" />
+            </div>
+            <button id="submitBtn" type="submit">Submit</button>
+        </div>
+        <div id="generateHighScore" class="flexCenter">
+            <h2>Highscores</h>
         </div>
     </main>
     <script src="./assets/script.js"></script>
