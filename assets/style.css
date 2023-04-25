@@ -1,0 +1,33 @@
+.timer {
+position: fixed;
+top: 0;
+right: 0;
+padding: 5px;
+margin: 5px;
+border: solid blue;
+background-color: beige;
+border-radius: 5px;
+}
+
+.highScoreBtn {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 5px;
+    margin: 5px;
+    border: solid red;
+    background-color: beige;
+    border-radius: 5px;
+}
+
+.interface {
+    position: relative;
+    display: flex;
+}
+
+#generateStart {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

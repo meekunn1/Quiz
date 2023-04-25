@@ -1,4 +1,23 @@
+var timer = document.querySelector(".timer");
+console.log(document);
 
+//timer function from 04-02-09
+function setTime() {
+    // Sets interval in variable
+    var quizTime = 70;
+    var countDown = setInterval(function() {
+      quizTime--;
+      timer.textContent = "second remaining" + quizTime;
+  
+      if(quizTime === 0) {
+        // Stops execution of action at set interval
+        clearInterval(countDown);
+        // Calls function to create and append image
+        generateEndGame();
+      }
+  
+    }, 1000);
+}
 
 
 //array shuffle function by ashleedawg, the updated version of durstendfeld shuffle
