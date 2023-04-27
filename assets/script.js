@@ -73,7 +73,7 @@ console.log(choiceSet[1].choice);
 console.log(choiceSet[1].correct);
 console.log(QAlist[1].choices[1].correct);
 console.log(QAlist[1].question);
-console.log(QAlist);
+console.log(QAlist.length - 1);
 console.log(QAlist[1].choices.length);
 // Expected output: "a"
 // Expected output: "b"
@@ -116,12 +116,14 @@ restartBtn.addEventListener("click", function(event){
 });
 
 function generateSubmitPage() {
+    questionNumber = 0
     quizPage.style.display="none";
     submitPage.style.display="";
     displayScore.textContent = "Your Score is: " + quizTime;
 }
 
 function generateRestartPage() {
+    questionNumber = 0
     quizPage.style.display="none";
     restartPage.style.display="";
 }
@@ -132,28 +134,65 @@ function generateRestartPage() {
   
       //from https://github.com/WebDevSimplified/JavaScript-Quiz-App/blob/master/script.js
       function generateQuestion() {
-
-          question.innerText = QAlist[questionNumber].question;
+        //console.log(questionNumber);
+          question.textContent = QAlist[questionNumber].question;
           QAlist[questionNumber].choices.forEach(answer => {
             var button = document.createElement('button');
-            button.innerText = answer.choice;
+            button.textContent = answer.choice;
             button.classList.add('btn');
             if (answer.correct) {
               button.dataset.correct = answer.correct
-            }
-            button.addEventListener('click', choiceResult)
+              button.addEventListener('click', resultCorrect)
             answerButtons.appendChild(button)
-          })
+            }
+            else{
+            button.addEventListener('click', resultWrong)
+            answerButtons.appendChild(button)
+            }
+          });
           return;
     }
 
-    function choiceResult(){
-      if (correct){
-        console.log("correct");
-        answerChecker.textContent= "correct";
-      }
-
+    function resultCorrect(){
+      answerChecker.textContent= "correct"
+      questionNumber++;
+      setInterval(function(){
+        answerChecker.textContent= "";
+        while (answerButtons.firstChild) {
+        answerButtons.removeChild(answerButtons.firstChild)
+        }
+        if (questionNumber === QAlist.length){
+          generateSubmitPage()
+          return;
+        }
+        else{
+        generateQuestion();
+        return;
+        }
+    },1000);
+    return;
     }
+    function resultWrong(){
+      answerChecker.textContent= "Wrong"
+      questionNumber++;
+      setInterval(function(){
+        answerChecker.textContent= "";
+        while (answerButtons.firstChild) {
+        answerButtons.removeChild(answerButtons.firstChild)
+        }
+        if (questionNumber === QAlist.length){
+          generateSubmitPage()
+          return;
+        }
+        else{
+        generateQuestion();
+        return;
+        }
+    },1000);
+    return;
+    }
+  
+    
 //generate question page. reference 04-01-26
 function generateChoices() {
        // Render a new li for each todo
