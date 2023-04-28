@@ -5,6 +5,7 @@ var submitPage = document.querySelector("#generateSubmit");
 var restartPage = document.querySelector("#generateRestart");
 var highScorePage = document.querySelector("#generateHighScore");
 var startBtn = document.querySelector("#startBtn");
+var startBtn2 = document.querySelector("#startBtn2");
 var restartBtn = document.querySelector("#restartBtn");
 var submitBtn = document.querySelector("#submitBtn");
 var displayScore = document.querySelector("#displayScore");
@@ -12,8 +13,8 @@ var questionCount = document.querySelector("#questionCount");
 var question = document.querySelector("#question");
 var answerButtons = document.querySelector("#answers");
 var answerChecker = document.querySelector("#answerChecker");
-var nameInput = document.querySelector("scoreName");
-
+var nameInput = document.querySelector("#scoreName");
+var scoreBoard = document.querySelector("#scoreBoard");
 //question and answer set
 var QAlist = [
     {
@@ -61,18 +62,20 @@ var QAlist = [
 var QAcaller = (Object.keys(QAlist));
 var questionNumber = 0
 var stopTimer = false
-var scoreList = ""
+var scoreList = []
 var currentScore = 0
 
 function getScore() {
   
-  var storedScore = JSON.parse(localStorage.getItem("storedScore"));
+  var storedScore = JSON.parse(localStorage.getItem("scoreList"));
 
   // If todos were retrieved from localStorage, update the todos array to it
   if (storedScore !== null) {
     scoreList = storedScore;
   }
+  return;
 }
+getScore()
 //tester
 const array1 = ['a', 'b', 'c'];
 
@@ -122,6 +125,16 @@ startBtn.addEventListener("click", function(event){
     return;
 });
 
+startBtn2.addEventListener("click", function(event){
+    event.preventDefault();
+    setTime();
+    startPage.style.display="none";
+    quizPage.style.display="";
+    questionNumber = 0
+    generateQuestion(question);
+    return;
+});
+
 restartBtn.addEventListener("click", function(event){
     event.preventDefault();
     setTime();
@@ -132,7 +145,6 @@ restartBtn.addEventListener("click", function(event){
 
 submitBtn.addEventListener("click", function(event){
   event.preventDefault();
-  setTime();
   var scorePush = {
     name: nameInput.value.trim(),
     score: currentScore
@@ -140,11 +152,17 @@ submitBtn.addEventListener("click", function(event){
   if (scorePush.name === ""){
     return;
   }
-
-  scoreList.push(scorePush);
-  submitPage.style.display="none";
-  highScorePage.style.display="";
+console.log(scorePush)
+if (scoreList !== ""){
+  scoreList.push.call(scorePush);
+  console.log(scoreList);
+  localStorage.setItem("scoreList", JSON.stringify(scoreList));
+  generateHighscoresPage()
   return;
+}
+else{
+  localStorage.setItem("scoreList", scoreList);
+}
 });
 
 function generateSubmitPage() {
@@ -152,6 +170,12 @@ function generateSubmitPage() {
     quizPage.style.display="none";
     submitPage.style.display="";
     displayScore.textContent = "Your Score is: " + currentScore;
+}
+
+function generateHighscoresPage() {
+  submitPage.style.display="none";
+  highScorePage.style.display="";
+
 }
 
 function generateRestartPage() {
@@ -197,7 +221,7 @@ function generateRestartPage() {
         answerButtons.removeChild(answerButtons.firstChild)
         }
         if (questionNumber === QAlist.length){
-          generateSubmitPage()
+          stopTimer = true;
           return;
         }
         else{
