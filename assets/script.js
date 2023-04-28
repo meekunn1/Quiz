@@ -6,11 +6,13 @@ var restartPage = document.querySelector("#generateRestart");
 var highScorePage = document.querySelector("#generateHighScore");
 var startBtn = document.querySelector("#startBtn");
 var restartBtn = document.querySelector("#restartBtn");
+var submitBtn = document.querySelector("#submitBtn");
 var displayScore = document.querySelector("#displayScore");
 var questionCount = document.querySelector("#questionCount");
 var question = document.querySelector("#question");
 var answerButtons = document.querySelector("#answers");
 var answerChecker = document.querySelector("#answerChecker");
+var nameInput = document.querySelector("scoreName");
 
 //question and answer set
 var QAlist = [
@@ -58,6 +60,19 @@ var QAlist = [
 ;
 var QAcaller = (Object.keys(QAlist));
 var questionNumber = 0
+var stopTimer = false
+var scoreList = ""
+var currentScore = 0
+
+function getScore() {
+  
+  var storedScore = JSON.parse(localStorage.getItem("storedScore"));
+
+  // If todos were retrieved from localStorage, update the todos array to it
+  if (storedScore !== null) {
+    scoreList = storedScore;
+  }
+}
 //tester
 const array1 = ['a', 'b', 'c'];
 
@@ -115,11 +130,28 @@ restartBtn.addEventListener("click", function(event){
     return;
 });
 
+submitBtn.addEventListener("click", function(event){
+  event.preventDefault();
+  setTime();
+  var scorePush = {
+    name: nameInput.value.trim(),
+    score: currentScore
+  }
+  if (scorePush.name === ""){
+    return;
+  }
+
+  scoreList.push(scorePush);
+  submitPage.style.display="none";
+  highScorePage.style.display="";
+  return;
+});
+
 function generateSubmitPage() {
     questionNumber = 0
     quizPage.style.display="none";
     submitPage.style.display="";
-    displayScore.textContent = "Your Score is: " + quizTime;
+    displayScore.textContent = "Your Score is: " + currentScore;
 }
 
 function generateRestartPage() {
@@ -156,7 +188,10 @@ function generateRestartPage() {
     function resultCorrect(){
       answerChecker.textContent= "correct"
       questionNumber++;
-      setInterval(function(){
+      var delay = 1;
+      var delayCountDown = setInterval(function() {
+        delay--;    
+        if(delay === 0) {
         answerChecker.textContent= "";
         while (answerButtons.firstChild) {
         answerButtons.removeChild(answerButtons.firstChild)
@@ -169,28 +204,30 @@ function generateRestartPage() {
         generateQuestion();
         return;
         }
-    },1000);
-    return;
-    }
-    function resultWrong(){
-      answerChecker.textContent= "Wrong"
-      questionNumber++;
-      setInterval(function(){
-        answerChecker.textContent= "";
-        while (answerButtons.firstChild) {
-        answerButtons.removeChild(answerButtons.firstChild)
-        }
-        if (questionNumber === QAlist.length){
-          generateSubmitPage()
-          return;
-        }
-        else{
-        generateQuestion();
+    }},1000);
+  }
+
+  function resultWrong(){
+    answerChecker.textContent= "wrong"
+    questionNumber++;
+    var delay = 1;
+    var delayCountDown = setInterval(function() {
+      delay--;    
+      if(delay === 0) {
+      answerChecker.textContent= "";
+      while (answerButtons.firstChild) {
+      answerButtons.removeChild(answerButtons.firstChild)
+      }
+      if (questionNumber === QAlist.length){
+        stopTimer = true;
         return;
-        }
-    },1000);
-    return;
-    }
+      }
+      else{
+      generateQuestion();
+      return;
+      }
+  }},1000);
+}
   
     
 //generate question page. reference 04-01-26
@@ -214,7 +251,7 @@ function generateChoices() {
 //timer function from 04-02-09
 function setTime() {
     // Sets interval in variable
-    var quizTime = 10;
+    var quizTime = 20;
     var countDown = setInterval(function() {
       quizTime--;
       timer.style.display="";
@@ -224,6 +261,13 @@ function setTime() {
         clearInterval(countDown);
         generateRestartPage();
         timer.style.display="none";
+        return;
+      }
+      if(stopTimer) {
+        currentScore = quizTime
+        clearInterval(countDown);
+        timer.style.display="none";
+        generateSubmitPage();
         return;
       }
     }, 1000);
