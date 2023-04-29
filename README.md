@@ -7,7 +7,7 @@ The purpose of this project was to practice DOM manipulation with javascript.
 ## Installation
 
 You can use this web app just by going to the following url:
-
+[https://meekunn1.github.io/Quiz/](https://meekunn1.github.io/Quiz/)
 
 ## Usage
 
