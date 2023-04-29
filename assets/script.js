@@ -71,10 +71,13 @@ var questionNumber = 0
 var stopTimer = false
 var scoreList = {}
 var currentScore = 0
+var quizTime = 70;
 
 function setDefault() {
   questionNumber = 0;
   currentScore = 0;
+  quizTime = 70;
+  stopTimer = false
 }
 
 function getScore() {
@@ -139,7 +142,7 @@ highScoreBtn.style.display="";
 
 startBtn.addEventListener("click", function(event){
     event.preventDefault();
-    stopTimer = false;
+    setDefault();
     setTime();
     startPage.style.display="none";
     highScoreBtn.style.display="none";
@@ -279,6 +282,7 @@ function generateRestartPage() {
   function resultWrong(){
     answerChecker.textContent= "wrong"
     questionNumber++;
+    quizTime -= 5
     var delay = 1;
     var delayCountDown = setInterval(function() {
       delay--;    
@@ -304,15 +308,14 @@ function removeChoice(){
 }
   
 
-//timer function from 04-02-09
+
 function setTime() {
-    var quizTime = 20;
     var countDown = setInterval(function() {
       quizTime--;
       timer.style.display="";
       timer.textContent = quizTime + " seconds left";
   
-      if(quizTime === 0) {
+      if(quizTime <= 0) {
         clearInterval(countDown);
         generateRestartPage();
         timer.style.display="none";
