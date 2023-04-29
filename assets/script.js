@@ -22,50 +22,52 @@ var top2 = document.querySelector("#top2");
 var top3 = document.querySelector("#top3");
 var top4 = document.querySelector("#top4");
 var top5 = document.querySelector("#top5");
-//question and answer set
+
+//question and answer set. add questions here.
 var QAlist = [
     {
-    question: "question1",
+    question: "What can be done to Arrays?",
     choices: 
         [
-        {choice: "A", correct: true },
-        {choice: "B", correct: false },
-        {choice: "C", correct: false },
-        {choice: "D", correct: false }
+        {choice: "merge", correct: false },
+        {choice: "sort", correct: false },
+        {choice: "get length", correct: false },
+        {choice: "all of the above", correct: true }
         ]
     },
     {
-    question: "question2",
+    question: "Can you have multiple variables with the same name?",
     choices: 
         [
-        {choice: "A", correct: true },
-        {choice: "B", correct: false },
-        {choice: "C", correct: false },
-        {choice: "D", correct: false }
+        {choice: "No definately", correct: false },
+        {choice: "Yes definately", correct: false },
+        {choice: "Yes, but only between functions", correct: true },
+        {choice: "Yes, but only inside a function", correct: false }
         ]
     },
     {
-    question: "question3",
+    question: "Which of the following will not be boolean false?",
     choices: 
         [
-        {choice: "A", correct: true },
-        {choice: "B", correct: false },
-        {choice: "C", correct: false },
-        {choice: "D", correct: false }
+        {choice: "null", correct: false },
+        {choice: "NaN", correct: false },
+        {choice: "-infinity", correct: true },
+        {choice: "0", correct: false }
         ]
     },
     {
-    question: "question4",
+    question: "which of the folloing will be false for == 1?",
     choices: 
         [
-        {choice: "A", correct: true },
-        {choice: "B", correct: false },
-        {choice: "C", correct: false },
-        {choice: "D", correct: false }
+        {choice: "1.0", correct: false },
+        {choice: "'one'", correct: true },
+        {choice: "'1'", correct: false },
+        {choice: "00001", correct: false }
         ]
     }    
 ]
 ;
+//main variables
 var QAcaller = (Object.keys(QAlist));
 var questionNumber = 0
 var stopTimer = false
@@ -80,10 +82,8 @@ function setDefault() {
   stopTimer = false
 }
 
-function getScore() {
-  
+function getScore() {  
   var storedScore = JSON.parse(localStorage.getItem("scoreList"));
-
   if (storedScore !== null) {
     scoreList = storedScore;
   }
@@ -94,42 +94,13 @@ function getScore() {
      {name: "empty", score: 0},
      {name: "empty", score: 0},
      {name: "empty", score: 0}
-    ]
-  
+    ] 
   }
   return;
 }
 
 getScore()
 console.log(scoreList);
-//tester
-const array1 = ['a', 'b', 'c'];
-
-array1.forEach(element => console.log(element));
-console.log(QAlist[1]);
-QAlist.forEach(element => console.log(element));
-var choiceList = QAlist[1];
-console.log(choiceList);
-var choiceSet = QAlist[1].choices;
-console.log(QAlist[1].choices);
-console.log(choiceSet);
-console.log(choiceSet[1].choice);
-console.log(choiceSet[1].correct);
-console.log(QAlist[1].choices[1].correct);
-console.log(QAlist[1].question);
-console.log(QAlist.length - 1);
-console.log(QAlist[1].choices.length);
-// Expected output: "a"
-// Expected output: "b"
-// Expected output: "c"
-
-//console.log(QAlist.q1[2]);
-console.log(QAcaller.length);
-console.log(QAlist[0]);
-console.log(QAcaller);
-console.log(timer);
-console.log(startPage);
-console.log(Object.keys(QAlist));
 
 //initial state
 startPage.style.display="";
@@ -140,6 +111,7 @@ highScorePage.style.display="none";
 timer.style.display="none";
 highScoreBtn.style.display="";
 
+//buttons
 startBtn.addEventListener("click", function(event){
     event.preventDefault();
     setDefault();
@@ -183,6 +155,7 @@ submitBtn.addEventListener("click", function(event){
   scoreList.sort((a, b) => b.score - a.score);
   localStorage.setItem("scoreList", JSON.stringify(scoreList));
   generateHighscoresPage();
+  nameInput.value = "";
   return;
 });
 
@@ -209,6 +182,7 @@ quitBtn.addEventListener("click", function(event){
   return;
 });
 
+//generate page functions
 function generateSubmitPage() {
     questionNumber = 0
     quizPage.style.display="none";
@@ -234,25 +208,20 @@ function generateRestartPage() {
     restartPage.style.display="";
     return;
 }
-
-    // Clear todoList element and update todoCountSpan
-    //var counter = 1
-    //questionCount.textContent = "question " + counter + " of" + QAcaller.length;
   
       //from https://github.com/WebDevSimplified/JavaScript-Quiz-App/blob/master/script.js
-      function generateQuestion() {
-        //console.log(questionNumber);
-          question.textContent = QAlist[questionNumber].question;
-          QAlist[questionNumber].choices.forEach(answer => {
-            var button = document.createElement('button');
-            button.textContent = answer.choice;
-            button.classList.add('btn');
-            if (answer.correct) {
-              button.dataset.correct = answer.correct
-              button.addEventListener('click', resultCorrect)
+    function generateQuestion() {
+        question.textContent = QAlist[questionNumber].question;
+        QAlist[questionNumber].choices.forEach(answer => {
+          var button = document.createElement('button');
+          button.textContent = answer.choice;
+          button.classList.add('btn');
+           if (answer.correct) {
+            button.dataset.correct = answer.correct
+            button.addEventListener('click', resultCorrect)
             answerButtons.appendChild(button)
             }
-            else{
+           else{
             button.addEventListener('click', resultWrong)
             answerButtons.appendChild(button)
             }
@@ -307,8 +276,6 @@ function removeChoice(){
   return;
 }
   
-
-
 function setTime() {
     var countDown = setInterval(function() {
       quizTime--;

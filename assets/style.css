@@ -21,6 +21,10 @@ h2 {
 h3 {
     font-size: 125%;
 }
+button {
+    margin: 5px;
+    font-size: 110%;
+}
 
 .timer {
 position: fixed;
