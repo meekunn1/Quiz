@@ -62,20 +62,31 @@ var QAlist = [
 var QAcaller = (Object.keys(QAlist));
 var questionNumber = 0
 var stopTimer = false
-var scoreList = []
+var scoreList = {}
 var currentScore = 0
 
 function getScore() {
   
   var storedScore = JSON.parse(localStorage.getItem("scoreList"));
 
-  // If todos were retrieved from localStorage, update the todos array to it
   if (storedScore !== null) {
     scoreList = storedScore;
   }
+  else {
+    scoreList = [
+     {name: "empty", score: 0},
+     {name: "empty", score: 0},
+     {name: "empty", score: 0},
+     {name: "empty", score: 0},
+     {name: "empty", score: 0}
+    ]
+  
+  }
   return;
 }
+
 getScore()
+console.log(scoreList);
 //tester
 const array1 = ['a', 'b', 'c'];
 
@@ -145,24 +156,15 @@ restartBtn.addEventListener("click", function(event){
 
 submitBtn.addEventListener("click", function(event){
   event.preventDefault();
-  var scorePush = {
-    name: nameInput.value.trim(),
-    score: currentScore
-  }
-  if (scorePush.name === ""){
+  if (nameInput.value.trim() === ""){
     return;
   }
-console.log(scorePush)
-if (scoreList !== ""){
-  scoreList.push.call(scorePush);
+  console.log(scoreList)
+  scoreList.push({ name: nameInput.value.trim(), score: currentScore });
   console.log(scoreList);
   localStorage.setItem("scoreList", JSON.stringify(scoreList));
   generateHighscoresPage()
   return;
-}
-else{
-  localStorage.setItem("scoreList", scoreList);
-}
 });
 
 function generateSubmitPage() {
