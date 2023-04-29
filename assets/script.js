@@ -74,7 +74,6 @@ var currentScore = 0
 
 function setDefault() {
   questionNumber = 0;
-  stopTimer = false;
   currentScore = 0;
 }
 
@@ -140,6 +139,7 @@ highScoreBtn.style.display="";
 
 startBtn.addEventListener("click", function(event){
     event.preventDefault();
+    stopTimer = false;
     setTime();
     startPage.style.display="none";
     highScoreBtn.style.display="none";
@@ -179,15 +179,6 @@ submitBtn.addEventListener("click", function(event){
   console.log(scoreList);
   scoreList.sort((a, b) => b.score - a.score);
   localStorage.setItem("scoreList", JSON.stringify(scoreList));
-  console.log(scoreList[0].score)
-  console.log(scoreList[0].name)
-  console.log(scoreList[4].score)
-  console.log(scoreList[4].name)
-  top1.textContent = "#1 Score: " + scoreList[0].score + " by " + scoreList[0].name;
-  top2.textContent = "#2 Score: " + scoreList[1].score + " by " + scoreList[1].name;
-  top3.textContent = "#3 Score: " + scoreList[2].score + " by " + scoreList[2].name;
-  top4.textContent = "#4 Score: " + scoreList[3].score + " by " + scoreList[3].name;
-  top5.textContent = "#5 Score: " + scoreList[4].score + " by " + scoreList[4].name;
   generateHighscoresPage();
   return;
 });
@@ -203,7 +194,6 @@ highScoreBtn.addEventListener("click", function(event){
 
 quitBtn.addEventListener("click", function(event){
   event.preventDefault();
-  stopTimer = true;
   setDefault();
   removeChoice();
   startPage.style.display="";
@@ -221,18 +211,25 @@ function generateSubmitPage() {
     quizPage.style.display="none";
     submitPage.style.display="";
     displayScore.textContent = "Your Score is: " + currentScore;
+    return;
 }
 
 function generateHighscoresPage() {
+  top1.textContent = "#1 Score: " + scoreList[0].score + " by " + scoreList[0].name;
+  top2.textContent = "#2 Score: " + scoreList[1].score + " by " + scoreList[1].name;
+  top3.textContent = "#3 Score: " + scoreList[2].score + " by " + scoreList[2].name;
+  top4.textContent = "#4 Score: " + scoreList[3].score + " by " + scoreList[3].name;
+  top5.textContent = "#5 Score: " + scoreList[4].score + " by " + scoreList[4].name;
   submitPage.style.display="none";
   highScorePage.style.display="";
-
+  return;
 }
 
 function generateRestartPage() {
     questionNumber = 0
     quizPage.style.display="none";
     restartPage.style.display="";
+    return;
 }
 
     // Clear todoList element and update todoCountSpan
@@ -303,25 +300,9 @@ function removeChoice(){
   while (answerButtons.firstChild) {
   answerButtons.removeChild(answerButtons.firstChild)
   }
+  return;
 }
-    
-//generate question page. reference 04-01-26
-function generateChoices() {
-       // Render a new li for each todo
-       for (var i = 0; i < QAcaller.length; i++) {
-        var QAcall = QAcaller[i] + "[0]";
-      question.textContent = QAlist.QAcall;
-      var li = document.createElement("li");
-      li.textContent = QAlist.QAcall[0];
-      li.setAttribute("data-index", i);
   
-      var button = document.createElement("button");
-      button.textContent = "Complete ✔️";
-  
-      li.appendChild(button);
-      todoList.appendChild(li);
-    }
-}
 
 //timer function from 04-02-09
 function setTime() {
@@ -344,16 +325,10 @@ function setTime() {
         generateSubmitPage();
         return;
       }
+      quitBtn.addEventListener("click", function(event){
+        event.preventDefault();
+        clearInterval(countDown);
+        return;
+      });
     }, 1000);
-}
-
-
-
-//array shuffle function by ashleedawg, the updated version of durstendfeld shuffle
-// https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
 }
