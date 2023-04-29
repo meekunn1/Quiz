@@ -1,3 +1,10 @@
+:root {
+    --score-BG: lightgreen;
+    --score-border: yellow;
+    --choice-BG: rgb(156, 201, 226);
+
+}
+
 body {
     font-family: 'Times New Roman', Times, serif;
     font-size: 16px;
@@ -33,6 +40,19 @@ z-index: 1;
     left: 0;
     padding: 5px;
     margin: 5px;
+    border: solid var(--score-border);
+    background-color: var(--score-BG);
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.quitBtn {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 5px;
+    margin: 5px;
     border: solid red;
     background-color: beige;
     border-radius: 5px;
@@ -65,6 +85,15 @@ z-index: 1;
 
 button {
     cursor: pointer;
+}
+
+#scoreBoard {
+    list-style-type: none;
+    padding: 20px;
+    font-size: 150%;
+    font-weight: bold;
+    border: solid 2.5px var(--score-border);
+    background-color: var(--score-BG);
 }
 
 @media (max-width: 740px) {
